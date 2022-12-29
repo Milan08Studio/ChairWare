@@ -1,2 +1,3 @@
-# ChairWare
-Survive The Killer script with OP features
+# Survive The Killer script
+currently broken.
+## NEW REPO
