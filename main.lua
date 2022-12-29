@@ -1,4 +1,4 @@
-local cringediscord = 'wxThQvKG'
+local cringediscord = 'WNeMvS5GB4'
 local text = Instance.new("TextLabel",Instance.new("ScreenGui",game.CoreGui))
 text.Text = "ChairWare is currently broken due to a game update!\nWe're updating very soon, join the discord in the meantime!\ndiscord.gg/"..cringediscord
 text.Position = UDim2.new(0,0,0,0)
