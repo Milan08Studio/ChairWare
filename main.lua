@@ -192,3 +192,6 @@ commsSec:NewToggle("Chat Spammer","spams in chat",function(val)
         end
     end))
 end)
+miscTab:NewSection("User Interface"):NewKeybind("Toggle UI", "toggles gui", Enum.KeyCode.RightControl, function()
+	Library:ToggleUI()
+end)
