@@ -165,6 +165,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
                 nametag.Position = UDim2.new(0,pos.X - 70,0,pos.Y - 22)
                 nametag.UIStroke.Color = v.Team.TeamColor.Color
             end
+            for i,v in pairs(nametags) do if not game.Players:FindFirstChild(i) then nametags[i]:Destroy() end end
             if char and game.Players.LocalPlayer.Team == game.Teams.Survivor and v.Team == game.Teams.Survivor and config.reviveFarm and v:GetAttribute("Downed") and not game.Players.LocalPlayer:GetAttribute("Downed") and (v.Character.HumanoidRootPart.Position - killer.Character.HumanoidRootPart.Position).Magnitude > 30 then
                 game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(char.HumanoidRootPart.CFrame + Vector3.new(0,2,0))
                 wait(0.5)
