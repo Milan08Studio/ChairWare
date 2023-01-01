@@ -16,6 +16,7 @@ local consts = require(game.ReplicatedStorage.Modules.Constants)
 local notificationHandler = require(game.ReplicatedStorage.Modules.NotificationHandler)
 function getCurrentMap() return workspace:FindFirstChild(workspace:GetAttribute("Map")) end
 function getKiller() return game.Teams.Killer:GetPlayers()[1] end
+notificationHandler.BannerAlert("ChairWare Hub loaded successfully!",Color3.new(255,0,0))
 local mainTab = win:NewTab("Main")
 local survivorSec = mainTab:NewSection("Survivors")
 survivorSec:NewToggle("Loot Autofarm","teleports u to loot", function(val)
@@ -53,7 +54,6 @@ end)
 workspace:GetAttributeChangedSignal("ExitsOpen"):Connect(function()
     if workspace:GetAttribute("ExitsOpen") and config.autoEscape and game.Players.LocalPlayer.Team == game.Teams.Survivor  then
         game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(getCurrentMap().Exits.ExitGateway.PrimaryPart.CFrame)
-        nameTagGui:ClearAllChildren()
     end
 end)
 local killerSec = mainTab:NewSection("Killer")
@@ -193,4 +193,4 @@ commsSec:NewToggle("Chat Spammer","spams in chat",function(val)
         end
     end))
 end)
-notificationHandler.BannerAlert("ChairWare Hub loaded successfully!",Color3.new(255,0,0))
+notificationHandler.BannerAlert("ChairWare Hub loaded successfully!", Color3.new(255,0,0))
