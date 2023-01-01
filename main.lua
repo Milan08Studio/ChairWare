@@ -13,8 +13,10 @@ local config = {fov=70}
 local crawlHandler = require(game.ReplicatedStorage.Modules.Game.ClientCrawlHandler)
 local network = require(game.ReplicatedStorage.Modules.Utilities.Network)
 local consts = require(game.ReplicatedStorage.Modules.Constants)
+local notificationHandler = require(game.ReplicatedStorage.Modules.NotificationHandler)
 function getCurrentMap() return workspace:FindFirstChild(workspace:GetAttribute("Map")) end
 function getKiller() return game.Teams.Killer:GetPlayers()[1] end
+notificationHandler.BannerAlert("ChairWare Hub loaded successfully!",Color3.new(255,0,0))
 local mainTab = win:NewTab("Main")
 local survivorSec = mainTab:NewSection("Survivors")
 survivorSec:NewToggle("Loot Autofarm","teleports u to loot", function(val)
@@ -191,4 +193,7 @@ commsSec:NewToggle("Chat Spammer","spams in chat",function(val)
             game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("dissord.gg/WNeMvS5GB4 - join ChairWare Hub","All")
         end
     end))
+end)
+miscTab:NewSection("User Interface"):NewKeybind("Toggle UI", "toggles gui", Enum.KeyCode.RightControl, function()
+	Library:ToggleUI()
 end)
