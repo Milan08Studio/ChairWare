@@ -174,7 +174,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
     end
     if config.killerSafety and game.Players.LocalPlayer.Team == game.Teams.Survivor then -- Killer safety
         local loots = getCurrentMap().LootSpawns:GetChildren()
-        if killer and (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - killer.Character.HumanoidRootPart.Position).Magnitude < 10 then
+        if killer and (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - killer.Character.HumanoidRootPart.Position).Magnitude < 20 then
             game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(loots[math.random(1,#loots)].Model.Border.CFrame + Vector3.new(0,5,0))
         end
     end
