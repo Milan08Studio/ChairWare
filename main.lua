@@ -16,7 +16,6 @@ local consts = require(game.ReplicatedStorage.Modules.Constants)
 local notificationHandler = require(game.ReplicatedStorage.Modules.NotificationHandler)
 function getCurrentMap() return workspace:FindFirstChild(workspace:GetAttribute("Map")) end
 function getKiller() return game.Teams.Killer:GetPlayers()[1] end
-notificationHandler.BannerAlert("ChairWare Hub loaded successfully!",Color3.new(255,0,0))
 local mainTab = win:NewTab("Main")
 local survivorSec = mainTab:NewSection("Survivors")
 survivorSec:NewToggle("Loot Autofarm","teleports u to loot", function(val)
