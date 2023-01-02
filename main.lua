@@ -13,9 +13,16 @@ local config = {fov=70}
 local crawlHandler = require(game.ReplicatedStorage.Modules.Game.ClientCrawlHandler)
 local network = require(game.ReplicatedStorage.Modules.Utilities.Network)
 local consts = require(game.ReplicatedStorage.Modules.Constants)
+local databases = require(game.ReplicatedStorage.Modules.Databases)
+local enums = require(game.ReplicatedStorage.Modules.Enums)
 local notificationHandler = require(game.ReplicatedStorage.Modules.NotificationHandler)
-function getCurrentMap() return workspace:FindFirstChild(workspace:GetAttribute("Map")) end
+function getCurrentMap() return workspace:FindFirstChild(workspace:GetAttribute("Map")) or workspace:FindFirstChild(workspace:GetAttribute("GameMode").." "..workspace:GetAttribute("Map")) end
 function getKiller() return game.Teams.Killer:GetPlayers()[1] end
+function getBackpackContent() 
+    local result = {}
+    for i,v in pairs(game.Players.LocalPlayer.PlayerGui.Menus.Backpack.Content:GetChildren()) do if v.Name == "ItemCell" and table.find(databases.Get("Loot"),v:GetAttribute("ItemID")) then table.insert(result,v:GetAttribute("ItemID")) end end
+    return result
+end
 local mainTab = win:NewTab("Main")
 local survivorSec = mainTab:NewSection("Survivors")
 survivorSec:NewToggle("Loot Autofarm","teleports u to loot", function(val)
@@ -35,15 +42,14 @@ survivorSec:NewToggle("No Rat Traps","removes traps", function(val)
     config.removeTraps = val
 end)
 function collectLoot()
-    local collected = 0
     for i,v in pairs(getCurrentMap().LootSpawns:GetChildren()) do
-        if collected == consts.MAX_ITEMS[game.Players.LocalPlayer:GetAttribute("Membership")].MAX_BACKPACK then break end
-        if v.ProximityPrompt.Enabled then
+        if #getBackpackContent() == consts.MAX_ITEMS[game.Players.LocalPlayer:GetAttribute("Membership")].MAX_BACKPACK then return end
+        local lootInfo = databases.Get("Loot")[v:GetAttribute("Loot")]
+        if v.ProximityPrompt.Enabled and lootInfo.SellPrice > 5 then
             game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(v.Model.Border.CFrame + Vector3.new(0,5,0))
             wait(0.2)
             fireproximityprompt(v.ProximityPrompt)
             wait(0.2)
-            collected += 1
         end
     end
 end
@@ -56,7 +62,6 @@ workspace:GetAttributeChangedSignal("ExitsOpen"):Connect(function()
     end
 end)
 local killerSec = mainTab:NewSection("Killer")
-workspace.ChildAdded:Connect(function(child) if config.soulTeleport and child.Name == "Soul" and game.Players.LocalPlayer.Team == game.Teams.Killer then child.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position end end)
 killerSec:NewToggle("Auto Kill All","kills everyone when you are the killer", function(val)
     config.killAll = val
     if config.killAll then
@@ -80,18 +85,20 @@ killerSec:NewToggle("Auto Kill All","kills everyone when you are the killer", fu
         end))
     end
 end)
-killerSec:NewToggle("Soul Teleport","teleports souls to you when people die",function(val) config.soulTeleport = val end)
 local visualsTab = win:NewTab("Visuals")
-local playerEspSec = visualsTab:NewSection("Player ESP")
+local EspSec = visualsTab:NewSection("ESP")
 local worldSec = visualsTab:NewSection("World")
 worldSec:NewSlider("FOV","changes ur field of view",120,70,function(val)
     config.fov = val
 end)
-playerEspSec:NewToggle("Nametag ESP","Shows cool ass nametags",function(val)
+EspSec:NewToggle("Player Nametags","Shows cool ass nametags for players",function(val)
     config.nametags = val
 end)
-playerEspSec:NewToggle("Box ESP","Shows box esp",function(val)
+EspSec:NewToggle("Player Boxes","Shows box esp for players",function(val)
     config.boxEsp = val
+end)
+EspSec:NewToggle("Loot Nametags","Shows shitty nametags for loot",function(val)
+    config.lootEsp = val
 end)
 local nametags = {}
 local nameTagGui = Instance.new("ScreenGui")
@@ -130,6 +137,7 @@ function makeNametag(plr)
 end
 game:GetService("RunService").RenderStepped:Connect(function()
     local killer = getKiller()
+    local map = getCurrentMap()
     nameTagGui.Enabled = config.nametags
     for i,v in pairs(game.Players:GetPlayers()) do
         if v ~= game.Players.LocalPlayer and v.Team ~= game.Teams.Lobby then
@@ -172,8 +180,30 @@ game:GetService("RunService").RenderStepped:Connect(function()
             end
         end
     end
+    if map then
+        for _,v in pairs(map.LootSpawns:GetChildren()) do -- Render loot esp
+            local lootInfo = databases.Get("Loot")[v:GetAttribute("Loot")]
+            local lootColor = consts.RARITY_COLOR[consts.RARITY_MAP[lootInfo.Rarity]]
+            local billboard = v.Model.Border:FindFirstChild("LootEssPee")
+            if not config.lootEsp and billboard then billboard:Destroy() end
+            if not billboard and config.lootEsp then
+                billboard = Instance.new("BillboardGui",v.Model.Border)
+                billboard.Name = "LootEssPee"
+                billboard.Size = UDim2.new(0,100,0,30)
+                billboard.AlwaysOnTop = true
+                billboard.StudsOffset = Vector3.new(0,1,0)
+                local textLabel = Instance.new("TextLabel",billboard)
+                textLabel.BackgroundTransparency = 1
+                textLabel.TextSize = 10
+                textLabel.Size = UDim2.new(1,0,1,0)
+                textLabel.TextStrokeTransparency = 0.5
+                textLabel.TextColor3 = lootColor
+                textLabel.Text = lootInfo.Name
+            end
+        end
+    end
     if config.killerSafety and game.Players.LocalPlayer.Team == game.Teams.Survivor then -- Killer safety
-        local loots = getCurrentMap().LootSpawns:GetChildren()
+        local loots = map.LootSpawns:GetChildren()
         if killer and (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - killer.Character.HumanoidRootPart.Position).Magnitude < 20 then
             game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(loots[math.random(1,#loots)].Model.Border.CFrame + Vector3.new(0,5,0))
         end
