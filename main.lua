@@ -180,7 +180,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
             end
         end
     end
-    if map then
+    if map and map:FindFirstChild("LootSpawns") then
         for _,v in pairs(map.LootSpawns:GetChildren()) do -- Render loot esp
             local lootInfo = databases.Get("Loot")[v:GetAttribute("Loot")]
             local lootColor = consts.RARITY_COLOR[consts.RARITY_MAP[lootInfo.Rarity]] or Color3.new(255,255,255)
