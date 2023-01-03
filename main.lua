@@ -193,7 +193,6 @@ game:GetService("RunService").RenderStepped:Connect(function()
                 billboard.Size = UDim2.new(0,100,0,30)
                 billboard.AlwaysOnTop = true
                 billboard.StudsOffset = Vector3.new(0,1,0)
-                billboard.Enabled = v.ProximityPrompt.Enabled
                 local textLabel = Instance.new("TextLabel",billboard)
                 textLabel.BackgroundTransparency = 1
                 textLabel.TextSize = 8
@@ -201,6 +200,8 @@ game:GetService("RunService").RenderStepped:Connect(function()
                 textLabel.TextStrokeTransparency = 0.5
                 textLabel.TextColor3 = lootColor
                 textLabel.Text = lootInfo.Name
+            else
+                billboard.Enabled = v.ProximityPrompt.Enabled
             end
         end
     end
