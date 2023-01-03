@@ -16,6 +16,7 @@ local consts = require(game.ReplicatedStorage.Modules.Constants)
 local databases = require(game.ReplicatedStorage.Modules.Databases)
 local enums = require(game.ReplicatedStorage.Modules.Enums)
 local notificationHandler = require(game.ReplicatedStorage.Modules.NotificationHandler)
+consts.RARITY_COLOR[enums.Rarity.Spectrum] = Color3.new(0, 255, 170)
 function getCurrentMap() return workspace:FindFirstChild(workspace:GetAttribute("Map")) or workspace:FindFirstChild(workspace:GetAttribute("GameMode").." "..workspace:GetAttribute("Map")) end
 function getKiller() return game.Teams.Killer:GetPlayers()[1] end
 function getBackpackContent() 
@@ -183,7 +184,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
     if map and map:FindFirstChild("LootSpawns") then
         for _,v in pairs(map.LootSpawns:GetChildren()) do -- Render loot esp
             local lootInfo = databases.Get("Loot")[v:GetAttribute("Loot")]
-            local lootColor = consts.RARITY_COLOR[consts.RARITY_MAP[lootInfo.Rarity]] or Color3.new(255,255,255)
+            local lootColor = consts.RARITY_COLOR[lootInfo.Rarity] or Color3.new(255,255,255)
             local billboard = v.Model.Border:FindFirstChild("LootEssPee")
             if not config.lootEsp and billboard then billboard:Destroy() end
             if not billboard and config.lootEsp then
@@ -192,9 +193,10 @@ game:GetService("RunService").RenderStepped:Connect(function()
                 billboard.Size = UDim2.new(0,100,0,30)
                 billboard.AlwaysOnTop = true
                 billboard.StudsOffset = Vector3.new(0,1,0)
+                billboard.Enabled = v.ProximityPrompt.Enabled
                 local textLabel = Instance.new("TextLabel",billboard)
                 textLabel.BackgroundTransparency = 1
-                textLabel.TextSize = 10
+                textLabel.TextSize = 8
                 textLabel.Size = UDim2.new(1,0,1,0)
                 textLabel.TextStrokeTransparency = 0.5
                 textLabel.TextColor3 = lootColor
