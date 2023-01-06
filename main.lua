@@ -103,9 +103,6 @@ end)
 EspSec:NewToggle("Player Boxes","Shows box esp for players",function(val)
     config.boxEsp = val
 end)
-EspSec:NewToggle("Loot Nametags","Shows shitty nametags for loot",function(val)
-    config.lootEsp = val
-end)
 local nametags = {}
 local nameTagGui = Instance.new("ScreenGui")
 if syn then
@@ -183,30 +180,6 @@ game:GetService("RunService").RenderStepped:Connect(function()
             if char and game.Players.LocalPlayer.Team == game.Teams.Survivor and v.Team == game.Teams.Survivor and config.reviveFarm and v:GetAttribute("Downed") and not game.Players.LocalPlayer:GetAttribute("Downed") and (v.Character.HumanoidRootPart.Position - killer.Character.HumanoidRootPart.Position).Magnitude > 30 then
                 game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(char.HumanoidRootPart.CFrame + Vector3.new(0,2,0))
                 wait(0.5)
-            end
-        end
-    end
-    if map and map:FindFirstChild("LootSpawns") then
-        for _,v in pairs(map.LootSpawns:GetChildren()) do -- Render loot esp
-            local lootInfo = databases.Get("Loot")[v:GetAttribute("Loot")]
-            local lootColor = consts.RARITY_COLOR[lootInfo.Rarity] or Color3.new(255,255,255)
-            local billboard = v.Model.Border:FindFirstChild("LootEssPee")
-            if not config.lootEsp and billboard then billboard:Destroy() end
-            if not billboard and config.lootEsp then
-                billboard = Instance.new("BillboardGui",v.Model.Border)
-                billboard.Name = "LootEssPee"
-                billboard.Size = UDim2.new(0,100,0,30)
-                billboard.AlwaysOnTop = true
-                billboard.StudsOffset = Vector3.new(0,1,0)
-                local textLabel = Instance.new("TextLabel",billboard)
-                textLabel.BackgroundTransparency = 1
-                textLabel.TextSize = 8
-                textLabel.Size = UDim2.new(1,0,1,0)
-                textLabel.TextStrokeTransparency = 0.5
-                textLabel.TextColor3 = lootColor
-                textLabel.Text = lootInfo.Name
-            else
-                billboard.Enabled = v.ProximityPrompt.Enabled
             end
         end
     end
