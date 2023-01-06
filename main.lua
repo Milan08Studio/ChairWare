@@ -140,7 +140,6 @@ function makeNametag(plr)
 end
 game:GetService("RunService").RenderStepped:Connect(function()
     local killer = getKiller()
-    local map = getCurrentMap()
     nameTagGui.Enabled = config.nametags
     for i,v in pairs(game.Players:GetPlayers()) do
         if v ~= game.Players.LocalPlayer and v.Team ~= game.Teams.Lobby then
@@ -184,7 +183,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
         end
     end
     if config.killerSafety and game.Players.LocalPlayer.Team == game.Teams.Survivor then -- Killer safety
-        local loots = map.LootSpawns:GetChildren()
+        local loots = getCurrentMap().LootSpawns:GetChildren()
         if killer and (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - killer.Character.HumanoidRootPart.Position).Magnitude < 20 then
             game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(loots[math.random(1,#loots)].Model.Border.CFrame + Vector3.new(0,5,0))
         end
