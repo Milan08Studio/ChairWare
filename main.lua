@@ -51,7 +51,7 @@ function collectLoot()
             wait(0.2)
             local _,isExploitShitty = pcall(function() fireproximityprompt(v.LootProxBlock.LootProximityPrompt) end)
             if isExploitShitty then
-                notificationHandler.BannerAlert(isExploitShitty.."\nAttempting to simulate key press to pick up loot!",Color3.new(255,0,0))
+                notificationHandler.BannerAlert("Attempting to simulate key press to pick up loot.",Color3.new(255,0,0))
                 game:GetService("VirtualUser"):SetKeyDown("E")
                 game:GetService("VirtualUser"):SetKeyUp("E")
             end
