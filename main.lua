@@ -44,7 +44,8 @@ survivorSec:NewToggle("No Rat Traps","removes traps", function(val)
 end)
 function collectLoot()
     for i,v in pairs(getCurrentMap().LootSpawns:GetChildren()) do
-        if #getBackpackContent() == consts.MAX_ITEMS[game.Players.LocalPlayer:GetAttribute("Membership")].MAX_BACKPACK then return end
+        if #getBackpackContent() == consts.MAX_ITEMS[game.Players.LocalPlayer:GetAttribute("Membership")].MAX_BACKPACK) then return end
+	print(#getBackpackContent().." / "..consts.MAX_ITEMS[game.Players.LocalPlayer:GetAttribute("Membership")].MAX_BACKPACK) -- for debugging, ignore this
         local lootInfo = databases.Get("Loot")[v:GetAttribute("Loot")]
         if v.LootProxBlock.LootProximityPrompt.Enabled and lootInfo.SellPrice > 2 then
             game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(v.Model.Border.CFrame + Vector3.new(0,5,0))
