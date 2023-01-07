@@ -42,7 +42,7 @@ function collectLoot()
     for i,v in pairs(getCurrentMap().LootSpawns:GetChildren()) do
         if getLootAmount() == consts.MAX_ITEMS[game.Players.LocalPlayer:GetAttribute("Membership")].MAX_BACKPACK then return end
         local lootInfo = databases.Get("Loot")[v:GetAttribute("Loot")]
-        if lootInfo.SellPrice > 2 then
+        if lootInfo.SellPrice > 5 then
             game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(v.Model.Border.CFrame + Vector3.new(0,5,0))
             wait(0.2)
             if fireproximityprompt then
