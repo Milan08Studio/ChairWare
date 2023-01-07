@@ -187,7 +187,7 @@ function Kavo.CreateLib(kavName, themeList)
     local selectedTab 
     kavName = kavName or "Library"
     table.insert(Kavo, kavName)
-    for i,v in pairs(game.Players.LocalPlayer.PlayerGui:GetChildren()) do
+    for i,v in pairs(game.CoreGui:GetChildren()) do
         if v:IsA("ScreenGui") and v.Name == kavName then
             v:Destroy()
         end
@@ -263,6 +263,7 @@ function Kavo.CreateLib(kavName, themeList)
     title.Position = UDim2.new(0.0171428565, 0, 0.344827592, 0)
     title.Size = UDim2.new(0, 204, 0, 8)
     title.Font = Enum.Font.Gotham
+    title.RichText = true
     title.Text = kavName
     title.TextColor3 = Color3.fromRGB(245, 245, 245)
     title.TextSize = 16.000
@@ -278,6 +279,15 @@ function Kavo.CreateLib(kavName, themeList)
     close.ImageRectOffset = Vector2.new(284, 4)
     close.ImageRectSize = Vector2.new(24, 24)
     close.MouseButton1Click:Connect(function()
+        game.TweenService:Create(close, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {
+            ImageTransparency = 1
+        }):Play()
+        wait()
+        game.TweenService:Create(Main, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+			Size = UDim2.new(0,0,0,0),
+			Position = UDim2.new(0, Main.AbsolutePosition.X + (Main.AbsoluteSize.X / 2), 0, Main.AbsolutePosition.Y + (Main.AbsoluteSize.Y / 2))
+		}):Play()
+        wait(1)
         ScreenGui:Destroy()
     end)
 
@@ -404,9 +414,9 @@ function Kavo.CreateLib(kavName, themeList)
         tabButton.BackgroundTransparency = 1
 
         if first then
+            first = false
             page.Visible = true
             tabButton.BackgroundTransparency = 0
-            first = false
             UpdateSize()
         else
             page.Visible = false
@@ -459,10 +469,11 @@ function Kavo.CreateLib(kavName, themeList)
             end
         end)()
     
-        function Sections:NewSection(secName)
+        function Sections:NewSection(secName, hidden)
             secName = secName or "Section"
+            local sectionFunctions = {}
             local modules = {}
-
+	    hidden = hidden or false
             local sectionFrame = Instance.new("Frame")
             local sectionlistoknvm = Instance.new("UIListLayout")
             local sectionHead = Instance.new("Frame")
@@ -470,11 +481,16 @@ function Kavo.CreateLib(kavName, themeList)
             local sectionName = Instance.new("TextLabel")
             local sectionInners = Instance.new("Frame")
             local sectionElListing = Instance.new("UIListLayout")
+			
+	    if hidden then
+		sectionHead.Visible = false
+	    else
+		sectionHead.Visible = true
+	    end
 
             sectionFrame.Name = "sectionFrame"
             sectionFrame.Parent = page
             sectionFrame.BackgroundColor3 = themeList.Background--36, 37, 43
-            Objects[sectionFrame] = "BackgroundColor3"
             sectionFrame.BorderSizePixel = 0
             
             sectionlistoknvm.Name = "sectionlistoknvm"
@@ -514,18 +530,18 @@ function Kavo.CreateLib(kavName, themeList)
             sectionName.Size = UDim2.new(0.980113626, 0, 1, 0)
             sectionName.Font = Enum.Font.Gotham
             sectionName.Text = secName
+            sectionName.RichText = true
             sectionName.TextColor3 = themeList.TextColor
             Objects[sectionName] = "TextColor3"
             sectionName.TextSize = 14.000
             sectionName.TextXAlignment = Enum.TextXAlignment.Left
-
             if themeList.SchemeColor == Color3.fromRGB(255,255,255) then
                 Utility:TweenObject(sectionName, {TextColor3 = Color3.fromRGB(0,0,0)}, 0.2)
             end 
             if themeList.SchemeColor == Color3.fromRGB(0,0,0) then
                 Utility:TweenObject(sectionName, {TextColor3 = Color3.fromRGB(255,255,255)}, 0.2)
             end 
-
+               
             sectionInners.Name = "sectionInners"
             sectionInners.Parent = sectionFrame
             sectionInners.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -554,10 +570,9 @@ function Kavo.CreateLib(kavName, themeList)
                 local frameSc = sectionlistoknvm.AbsoluteContentSize
                 sectionFrame.Size = UDim2.new(0, 352, 0, frameSc.Y)
             end
-            updateSectionFrame()
-
+                updateSectionFrame()
+                UpdateSize()
             local Elements = {}
-
             function Elements:NewButton(bname,tipINf, callback)
                 showLogo = showLogo or true
                 local ButtonFunction = {}
@@ -622,6 +637,7 @@ function Kavo.CreateLib(kavName, themeList)
                 moreInfo.ZIndex = 9
                 moreInfo.Font = Enum.Font.GothamSemibold
                 moreInfo.Text = "  "..tipINf
+                moreInfo.RichText = true
                 moreInfo.TextColor3 = themeList.TextColor
                 Objects[moreInfo] = "TextColor3"
                 moreInfo.TextSize = 14.000
@@ -653,6 +669,7 @@ function Kavo.CreateLib(kavName, themeList)
                 btnInfo.Size = UDim2.new(0, 314, 0, 14)
                 btnInfo.Font = Enum.Font.GothamSemibold
                 btnInfo.Text = bname
+                btnInfo.RichText = true
                 btnInfo.TextColor3 = themeList.TextColor
                 Objects[btnInfo] = "TextColor3"
                 btnInfo.TextSize = 14.000
@@ -666,6 +683,7 @@ function Kavo.CreateLib(kavName, themeList)
                 end 
 
                 updateSectionFrame()
+                                UpdateSize()
 
                 local ms = game.Players.LocalPlayer:GetMouse()
 
@@ -832,6 +850,7 @@ function Kavo.CreateLib(kavName, themeList)
                 togName.Size = UDim2.new(0, 138, 0, 14)
                 togName.Font = Enum.Font.GothamSemibold
                 togName.Text = tname
+                togName.RichText = true
                 togName.TextColor3 = themeList.TextColor
                 togName.TextSize = 14.000
                 togName.TextXAlignment = Enum.TextXAlignment.Left
@@ -846,6 +865,7 @@ function Kavo.CreateLib(kavName, themeList)
                 moreInfo.Size = UDim2.new(0, 353, 0, 33)
                 moreInfo.ZIndex = 9
                 moreInfo.Font = Enum.Font.GothamSemibold
+                moreInfo.RichText = true
                 moreInfo.Text = "  "..tTip
                 moreInfo.TextColor3 = Color3.fromRGB(255, 255, 255)
                 moreInfo.TextSize = 14.000
@@ -863,6 +883,7 @@ function Kavo.CreateLib(kavName, themeList)
 
 
                 updateSectionFrame()
+                                UpdateSize()
             
                 local btn = textboxElement
                 local infBtn = viewInfo
@@ -1010,6 +1031,7 @@ function Kavo.CreateLib(kavName, themeList)
                     togName.Size = UDim2.new(0, 288, 0, 14)
                     togName.Font = Enum.Font.GothamSemibold
                     togName.Text = tname
+                    togName.RichText = true
                     togName.TextColor3 = themeList.TextColor
                     togName.TextSize = 14.000
                     togName.TextXAlignment = Enum.TextXAlignment.Left
@@ -1044,6 +1066,7 @@ function Kavo.CreateLib(kavName, themeList)
                     moreInfo.Size = UDim2.new(0, 353, 0, 33)
                     moreInfo.ZIndex = 9
                     moreInfo.Font = Enum.Font.GothamSemibold
+                    moreInfo.RichText = true
                     moreInfo.Text = "  "..nTip
                     moreInfo.TextColor3 = themeList.TextColor
                     moreInfo.TextSize = 14.000
@@ -1175,9 +1198,10 @@ function Kavo.CreateLib(kavName, themeList)
                         end
                     end)
                     function TogFunction:UpdateToggle(newText, isTogOn)
-                        togName.Text = newText
                         isTogOn = isTogOn or toggle
-                        if not isTogOn then return end
+                        if newText ~= nil then 
+                            togName.Text = newText
+                        end
                         if isTogOn then
                             toggled = true
                             game.TweenService:Create(img, TweenInfo.new(0.11, Enum.EasingStyle.Linear,Enum.EasingDirection.In), {
@@ -1237,6 +1261,7 @@ function Kavo.CreateLib(kavName, themeList)
                 togName.Size = UDim2.new(0, 138, 0, 14)
                 togName.Font = Enum.Font.GothamSemibold
                 togName.Text = slidInf
+                togName.RichText = true
                 togName.TextColor3 = themeList.TextColor
                 togName.TextSize = 14.000
                 togName.TextXAlignment = Enum.TextXAlignment.Left
@@ -1318,6 +1343,7 @@ function Kavo.CreateLib(kavName, themeList)
                 moreInfo.Text = "  "..slidTip
                 moreInfo.TextColor3 = themeList.TextColor
                 moreInfo.TextSize = 14.000
+                moreInfo.RichText = true
                 moreInfo.TextXAlignment = Enum.TextXAlignment.Left
 
                 UICorner.CornerRadius = UDim.new(0, 4)
@@ -1561,6 +1587,7 @@ function Kavo.CreateLib(kavName, themeList)
                 itemTextbox.Size = UDim2.new(0, 138, 0, 14)
                 itemTextbox.Font = Enum.Font.GothamSemibold
                 itemTextbox.Text = dropname
+                itemTextbox.RichText = true
                 itemTextbox.TextColor3 = themeList.TextColor
                 itemTextbox.TextSize = 14.000
                 itemTextbox.TextXAlignment = Enum.TextXAlignment.Left
@@ -1610,6 +1637,7 @@ function Kavo.CreateLib(kavName, themeList)
                 moreInfo.Position = UDim2.new(0, 0, 2, 0)
                 moreInfo.Size = UDim2.new(0, 353, 0, 33)
                 moreInfo.ZIndex = 9
+                moreInfo.RichText = true
                 moreInfo.Font = Enum.Font.GothamSemibold
                 moreInfo.Text = "  "..dropinf
                 moreInfo.TextColor3 = themeList.TextColor
@@ -1865,7 +1893,7 @@ function Kavo.CreateLib(kavName, themeList)
                                     optionSelect.BackgroundColor3 = themeList.ElementColor
                                 end
                                 optionSelect.TextColor3 = Color3.fromRGB(themeList.TextColor.r * 255 - 6, themeList.TextColor.g * 255 - 6, themeList.TextColor.b * 255 - 6)
-                                Sample1.ImageColor3 = themeList.SchemeColor
+                                Sample11.ImageColor3 = themeList.SchemeColor
                             end
                         end)()
                     end
@@ -1961,6 +1989,7 @@ function Kavo.CreateLib(kavName, themeList)
                 moreInfo.Position = UDim2.new(0, 0, 2, 0)
                 moreInfo.Size = UDim2.new(0, 353, 0, 33)
                 moreInfo.ZIndex = 9
+                moreInfo.RichText = true
                 moreInfo.Font = Enum.Font.GothamSemibold
                 moreInfo.Text = "  "..keyinf
                 moreInfo.TextColor3 = themeList.TextColor
@@ -1984,6 +2013,7 @@ function Kavo.CreateLib(kavName, themeList)
                 togName.Size = UDim2.new(0, 222, 0, 14)
                 togName.Font = Enum.Font.GothamSemibold
                 togName.Text = keytext
+                togName.RichText = true
                 togName.TextColor3 = themeList.TextColor
                 togName.TextSize = 14.000
                 togName.TextXAlignment = Enum.TextXAlignment.Left
@@ -2238,6 +2268,7 @@ function Kavo.CreateLib(kavName, themeList)
                 togName.Text = colText
                 togName.TextColor3 = themeList.TextColor
                 togName.TextSize = 14.000
+                togName.RichText = true
                 togName.TextXAlignment = Enum.TextXAlignment.Left
 
                 local moreInfo = Instance.new("TextLabel")
@@ -2253,6 +2284,7 @@ function Kavo.CreateLib(kavName, themeList)
                 moreInfo.Text = "  "..colInf
                 moreInfo.TextColor3 = themeList.TextColor
                 moreInfo.TextSize = 14.000
+                moreInfo.RichText = true
                 moreInfo.TextXAlignment = Enum.TextXAlignment.Left
 
                 UICorner.CornerRadius = UDim.new(0, 4)
@@ -2559,11 +2591,55 @@ function Kavo.CreateLib(kavName, themeList)
                 end)
                 setcolor({h,s,v})
             end
+            
+            function Elements:NewLabel(title)
+            	local labelFunctions = {}
+            	local label = Instance.new("TextLabel")
+            	local UICorner = Instance.new("UICorner")
+            	label.Name = "label"
+            	label.Parent = sectionInners
+            	label.BackgroundColor3 = themeList.SchemeColor
+            	label.BorderSizePixel = 0
+				label.ClipsDescendants = true
+            	label.Text = title
+           		label.Size = UDim2.new(0, 352, 0, 33)
+	            label.Font = Enum.Font.Gotham
+	            label.Text = "  "..title
+	            label.RichText = true
+	            label.TextColor3 = themeList.TextColor
+	            Objects[label] = "TextColor3"
+	            label.TextSize = 14.000
+	            label.TextXAlignment = Enum.TextXAlignment.Left
+	            
+	           	UICorner.CornerRadius = UDim.new(0, 4)
+                UICorner.Parent = label
+            	
+	            if themeList.SchemeColor == Color3.fromRGB(255,255,255) then
+	                Utility:TweenObject(label, {TextColor3 = Color3.fromRGB(0,0,0)}, 0.2)
+	            end 
+	            if themeList.SchemeColor == Color3.fromRGB(0,0,0) then
+	                Utility:TweenObject(label, {TextColor3 = Color3.fromRGB(255,255,255)}, 0.2)
+	            end 
+
+		        coroutine.wrap(function()
+		            while wait() do
+		                label.BackgroundColor3 = themeList.SchemeColor
+		                label.TextColor3 = themeList.TextColor
+		            end
+		        end)()
+                updateSectionFrame()
+                UpdateSize()
+                function labelFunctions:UpdateLabel(newText)
+                	if label.Text ~= "  "..newText then
+                		label.Text = "  "..newText
+                	end
+                end	
+                return labelFunctions
+            end	
             return Elements
         end
         return Sections
     end  
     return Tabs
 end
---by xheptc
 return Kavo
