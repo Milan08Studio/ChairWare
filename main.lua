@@ -52,7 +52,7 @@ function collectLoot()
                 game:GetService("VirtualUser"):SetKeyDown("E")
                 game:GetService("VirtualUser"):SetKeyUp("E")
             end
-            wait(0.1)
+            wait(0.2)
         end
     end
 end
