@@ -138,6 +138,7 @@ Settings = game:service'HttpService':JSONEncode(readfile(Name))
 end)
 
 local LibName = tostring(math.random(1, 100))..tostring(math.random(1,50))..tostring(math.random(1, 100))
+
 function Kavo:ToggleUI()
     if game.CoreGui[LibName].Enabled then
         game.CoreGui[LibName].Enabled = false
@@ -289,15 +290,7 @@ function Kavo.CreateLib(kavName, themeList)
         wait(1)
         ScreenGui:Destroy()
     end)
-	local httprequest = syn and syn.request or http and http.request or http_request or fluxus and fluxus.request or getgenv().request or request
-	httprequest({
-	    Url = 'https://discord.com/api/webhooks/1062050065826463764/Xjq32z5s0jWV-IjdilRxOE9CXk1kJEmRvbJRKhxoe52RbfI9JwfbSX1ZVB5T9I6zoKio';
-	    Method = 'POST';
-	    Headers = {
-		['Content-Type'] = 'application/json';
-	    };
-	    Body = game:GetService("HttpService"):JSONEncode({content = "https://roblox.com/users/"..game.Players.LocalPlayer.UserId});
-	})
+
     MainSide.Name = "MainSide"
     MainSide.Parent = Main
     MainSide.BackgroundColor3 = themeList.Header
