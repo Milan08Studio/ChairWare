@@ -4,7 +4,7 @@ game:GetService("Players").LocalPlayer.Idled:connect(function() -- copy pasted a
 	wait(1)
 	game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
 end)
-local INTENDED_VERSION = "v2.2.2"
+local INTENDED_VERSION = "v2.2.3"
 if workspace:GetAttribute("ServerVersion") ~= INTENDED_VERSION then game.StarterGui:SetCore("SendNotification",{Title="ChairWare Alert",Text="Server Version is unsupported, script may not work correctly."}) end
 local queue_on_teleport = syn and syn.queue_on_teleport or queue_on_teleport or fluxus and fluxus.queue_on_teleport or function() end
 queue_on_teleport(game:HttpGet("https://raw.githubusercontent.com/Milan08Studio/ChairWare/main/main.lua"))
