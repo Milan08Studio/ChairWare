@@ -146,7 +146,7 @@ function lib:Window(text, preset, closebind)
     UserInputService.InputBegan:Connect(
         function(io, p)
             if io.KeyCode == CloseBind then
-                knixhub.Enabled = not knixhub.Enabled
+                ui.Enabled = not ui.Enabled
             end
         end
     )
