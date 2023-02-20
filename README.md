@@ -1,4 +1,7 @@
-# ChairWare Hub for Survive The Killer
-Easy to use Survive The Killer script with overpowered features such as Autofarm, Kill All, ESP and more! 
+# ChairWare Hub
+Easy to use script with overpowered features!
+
+Supported games:
+- Survive The Killer
 
 Discord: https://discord.gg/WNeMvS5GB4
