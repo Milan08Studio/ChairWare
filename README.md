@@ -1,7 +1,8 @@
 # ChairWare Hub
-Easy to use script with overpowered features!
+An easy to use and feature rich Roblox script! We always aim to be the best!
 
-Supported games:
+## Supported games:
 - Survive The Killer
+- FOBLOX
 
 Discord: https://discord.gg/WNeMvS5GB4
