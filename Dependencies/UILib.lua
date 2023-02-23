@@ -12,7 +12,7 @@ ui.Parent = game.CoreGui
 ui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 game:GetService("UserInputService").InputBegan:Connect(function(key,gp)
     if not gp and key.UserInputType == Enum.UserInputType.Keyboard and key.KeyCode == Enum.KeyCode.RightControl then ui.Enabled = not ui.Enabled end     
-end
+end)
 coroutine.wrap(
     function()
         while wait() do
