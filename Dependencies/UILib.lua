@@ -1527,7 +1527,7 @@ function lib:Window(text, preset)
                    TextBox.Text = ""
                 end
             end)
-            TextBox:GetPropertyChangedSignal("Text"):Connect(callback)
+            TextBox:GetPropertyChangedSignal("Text"):Connect(function() callback(TextBox.Text) end)
             Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
         end
         function tabcontent:Bind(text, keypreset, callback)
