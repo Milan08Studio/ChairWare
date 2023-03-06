@@ -1614,4 +1614,7 @@ function lib:Window(text, preset)
     end
     return tabhold
 end
+
+function lib:Destroy() ui:Destroy() end
+
 return lib
