@@ -1522,14 +1522,12 @@ function lib:Window(text, preset)
             TextBox.Text = ""
             TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
             TextBox.TextSize = 14.000
-            function onFocusLost()
-                pcall(callback, TextBox.Text)
+            TextBox.FocusLost:Connect(function()
                 if disapper then
                    TextBox.Text = ""
                 end
-            end
-            TextBox.FocusLost:Connect(onFocusLost)
-            TextBox.ReturnPressedFromOnScreenKeyboard:Connect(onFocusLost)
+            end)
+            TextBox:GetPropertyChangedSignal("Text"):Connect(callback)
             Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
         end
         function tabcontent:Bind(text, keypreset, callback)
