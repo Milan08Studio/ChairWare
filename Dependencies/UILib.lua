@@ -7,9 +7,10 @@ local Mouse = LocalPlayer:GetMouse()
 local PresetColor = Color3.fromRGB(44, 120, 224)
 
 local ui = Instance.new("ScreenGui")
-ui.Name = "ui"
+ui.Name = ".-.. . --. .. - / .-. .- .--. . .-. / ...-- ----- ----- -----"
 ui.Parent = game.CoreGui
 ui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+if syn then syn.protect_gui(ui) end
 game:GetService("UserInputService").InputBegan:Connect(function(key,gp)
     if not gp and key.UserInputType == Enum.UserInputType.Keyboard and key.KeyCode == Enum.KeyCode.RightControl then ui.Enabled = not ui.Enabled end     
 end)
