@@ -656,7 +656,7 @@ function lib:Window(text, preset)
                 toggled = not toggled
             end
             Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
-            callback(default)
+            pcall(callback,default)
         end
         function tabcontent:Slider(text, min, max, start, callback)
             local dragging = false
