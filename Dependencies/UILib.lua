@@ -7,12 +7,13 @@ local Mouse = LocalPlayer:GetMouse()
 local PresetColor = Color3.fromRGB(44, 120, 224)
 
 local ui = Instance.new("ScreenGui")
-ui.Name = ".-.. . --. .. - / .-. .- .--. . .-. / ...-- ----- ----- -----"
+ui.Name = "ChairWareHub"
 ui.Parent = game.CoreGui
+if gethui then ui.Parent = gethui() end
 ui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-if syn then syn.protect_gui(ui) end
+function lib:Toggle() ui.Enabled = not ui.Enabled end
 game:GetService("UserInputService").InputBegan:Connect(function(key,gp)
-    if not gp and key.UserInputType == Enum.UserInputType.Keyboard and key.KeyCode == Enum.KeyCode.RightControl then ui.Enabled = not ui.Enabled end     
+    if not gp and key.UserInputType == Enum.UserInputType.Keyboard and key.KeyCode == Enum.KeyCode.RightControl then lib:Toggle() end     
 end)
 coroutine.wrap(
     function()
