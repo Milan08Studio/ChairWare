@@ -1,4 +1,4 @@
 return {
-  ["text"] = "The April Fools prank has been removed... :c",
+  ["text"] = "TEST ANNOUNCEMENT (ignore)",
   ["duration"] = 1680550668
 }
