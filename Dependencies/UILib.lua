@@ -8,10 +8,25 @@ local PresetColor = Color3.fromRGB(44, 120, 224)
 
 local ui = Instance.new("ScreenGui")
 ui.Name = "ChairWareHub"
-ui.Parent = game.CoreGui
-if gethui then ui.Parent = gethui() end
 ui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ui.ResetOnSpawn = false
+ui.DisplayOrder = 999999
+ui.Parent = gethui and gethui() or game.CoreGui
 function lib:Toggle() ui.Enabled = not ui.Enabled end
+local toggleButtonHolder = Instance.new("ScreenGui", ui.Parent)
+toggleButtonHolder.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+toggleButtonHolder.ResetOnSpawn = false
+toggleButtonHolder.DisplayOrder = 999999
+toggleButtonHolder.Enabled = true
+local toggleButton = Instance.new("ImageButton", toggleButtonHolder)
+local toggleButtonCorner = Instance.new("UICorner", toggleButton)
+toggleButton.Size = UDim2.new(0, 52,0, 52)
+toggleButton.Image = "rbxassetid://13402899428"
+toggleButton.Position = UDim2.new(0.745, 0,0.055, 0)
+toggleButton.BackgroundTransparency = 0.5
+toggleButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+toggleButton.MouseButton1Click:Connect(lib.Toggle)
+toggleButtonCorner.CornerRadius = UDim.new(0,100)
 game:GetService("UserInputService").InputBegan:Connect(function(key,gp)
     if not gp and key.UserInputType == Enum.UserInputType.Keyboard and key.KeyCode == Enum.KeyCode.RightControl then lib:Toggle() end     
 end)
@@ -657,7 +672,7 @@ function lib:Window(text, preset)
                 toggled = not toggled
             end
             Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
-            pcall(callback,default)
+            task.spawn(function() callback(default) end)
         end
         function tabcontent:Slider(text, min, max, start, callback)
             local dragging = false
