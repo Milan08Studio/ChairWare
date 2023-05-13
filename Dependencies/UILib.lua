@@ -102,7 +102,7 @@ local function MakeDraggable(topbarobject, object)
         end
     )
 end
-
+MakeDraggable(toggleButton, toggleButton)
 function lib:Window(text, preset)
     PresetColor = preset or Color3.fromRGB(44, 120, 224)
     fs = false
