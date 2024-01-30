@@ -6,7 +6,3 @@ Easy to use, and feature rich Roblox script since 2021! We offer the best cheats
 - FOBLOX
 
 Discord: https://discord.gg/WNeMvS5GB4
-
-## Development Notice
-
-Not working on this until a new high quality executor for PC is released.
